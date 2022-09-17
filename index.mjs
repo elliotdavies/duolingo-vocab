@@ -1,16 +1,9 @@
-/**
- * H/T https://github.com/KartikTalwar/Duolingo
- * H/T https://gitlab.com/nithiya/duolingo
- */
-
 import fetch from "node-fetch";
 import fs from "fs/promises";
 
-const token = process.env.DUOLINGO_TOKEN;
+const TOKEN = process.env.DUOLINGO_TOKEN;
 
-if (!token) {
-  throw new Error("Missing env var DUOLINGO_TOKEN");
-}
+const CHUNK_SIZE = 500
 
 const vocabOverviewUrl = "https://www.duolingo.com/vocabulary/overview";
 
@@ -24,7 +17,7 @@ const mkDictionaryUrl = (lang, words) => {
 const fetchVocabOverview = async () => {
   const res = await fetch(vocabOverviewUrl, {
     headers: {
-      cookie: `jwt_token=${token}`,
+      cookie: `jwt_token=${TOKEN}`,
     },
     method: "GET",
   });
@@ -37,7 +30,7 @@ const fetchTranslations = async (words) => {
 
   const res = await fetch(url, {
     headers: {
-      cookie: `jwt_token=${token}`,
+      cookie: `jwt_token=${TOKEN}`,
     },
     method: "GET",
   });
@@ -46,6 +39,10 @@ const fetchTranslations = async (words) => {
 };
 
 const main = async () => {
+  if (!TOKEN) {
+    throw new Error("Missing env var DUOLINGO_TOKEN");
+  }
+
   const { language_string, vocab_overview } = await fetchVocabOverview();
 
   console.info(`Retrieved vocab for language ${language_string}`);
@@ -53,14 +50,12 @@ const main = async () => {
   const words = vocab_overview.map((item) => item.word_string);
   const unique_words = [...new Set(words)];
 
-  const chunkSize = 500;
-
   const chunks = [];
   let chunk = [];
   let i = 0;
 
   for (const w of unique_words) {
-    if (i < chunkSize) {
+    if (i < CHUNK_SIZE) {
       chunk.push(w);
       i++;
     } else {
