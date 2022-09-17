@@ -1,2 +1,4 @@
+*.swp
+index.mjs
 node_modules
 translations.json

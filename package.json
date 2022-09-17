@@ -2,9 +2,11 @@
   "name": "duolingo",
   "version": "1.0.0",
   "description": "",
-  "main": "index.mjs",
+  "main": "index.mts",
+  "type": "module",
   "scripts": {
-    "format": "prettier -w index.mjs"
+    "format": "prettier -w index.mts",
+    "watch": "tsc -w"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +15,8 @@
     "node-fetch": "^3.2.10"
   },
   "devDependencies": {
-    "prettier": "^2.7.1"
+    "@types/node": "^18.7.18",
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.3"
   }
 }

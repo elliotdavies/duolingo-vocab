@@ -16,10 +16,18 @@ which is the unofficial API package for Duolingo (in Python).
 npm install
 ```
 
-2. Log into Duolingo via the web UI and grab your JWT from your browser's cookie
+2. Run TypeScript:
+
+```bash
+npm run watch
+```
+
+This will generate an `index.mjs` file.
+
+3. Log into Duolingo via the web UI and grab your JWT from your browser's cookie
 storage.
 
-3. Run the script:
+4. Run the transpiled file:
 
 ```bash
 DUOLINGO_TOKEN="<jwt>" node index.mjs
